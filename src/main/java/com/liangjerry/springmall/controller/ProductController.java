@@ -1,6 +1,7 @@
 package com.liangjerry.springmall.controller;
 
 import com.liangjerry.springmall.constant.ProductCategory;
+import com.liangjerry.springmall.dto.ProductQueryParams;
 import com.liangjerry.springmall.dto.ProductRequest;
 import com.liangjerry.springmall.model.Product;
 import com.liangjerry.springmall.service.ProductService;
@@ -21,7 +22,11 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(@RequestParam(required = false) ProductCategory category, @RequestParam(required = false) String search){
 
-        List<Product> productList = productService.getProducts(category, search);
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }

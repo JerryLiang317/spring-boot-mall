@@ -1,6 +1,6 @@
 package com.liangjerry.springmall.dao;
 
-import com.liangjerry.springmall.constant.ProductCategory;
+import com.liangjerry.springmall.dto.ProductQueryParams;
 import com.liangjerry.springmall.dto.ProductRequest;
 import com.liangjerry.springmall.model.Product;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductDao {
 
-    List<Product> getProducts(ProductCategory category, String search);
+    List<Product> getProducts(ProductQueryParams productQueryParams);
 
     Product getProductById (Integer productId);
 
