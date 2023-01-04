@@ -4,10 +4,14 @@ import com.liangjerry.springmall.dao.UserDao;
 import com.liangjerry.springmall.dto.UserRegisterRequest;
 import com.liangjerry.springmall.model.User;
 import com.liangjerry.springmall.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -20,6 +24,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer register(UserRegisterRequest registerRequest) {
+        //檢查註冊的 email
+        User user = userDao.getUserByEmail(registerRequest.getEmail());
+
+        if(user != null){
+            log.warn("該 email {} 已經被註冊", registerRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        //創建帳號
         return userDao.createUser(registerRequest);
     }
 }
