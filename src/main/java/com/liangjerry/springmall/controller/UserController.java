@@ -1,5 +1,6 @@
 package com.liangjerry.springmall.controller;
 
+import com.liangjerry.springmall.dto.UserLoginRequest;
 import com.liangjerry.springmall.dto.UserRegisterRequest;
 import com.liangjerry.springmall.model.User;
 import com.liangjerry.springmall.service.UserService;
@@ -25,5 +26,12 @@ public class UserController {
         User user = userService.getUserById(userId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<User> login (@RequestBody @Valid UserLoginRequest userLoginRequest){
+        User user = userService.login(userLoginRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
