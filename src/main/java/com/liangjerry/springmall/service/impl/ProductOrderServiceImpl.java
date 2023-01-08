@@ -6,6 +6,7 @@ import com.liangjerry.springmall.dto.BuyItem;
 import com.liangjerry.springmall.dto.CreateOrderRequest;
 import com.liangjerry.springmall.model.OrderItem;
 import com.liangjerry.springmall.model.Product;
+import com.liangjerry.springmall.model.ProductOrder;
 import com.liangjerry.springmall.service.ProductOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,17 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public ProductOrder getOrderById(Integer orderId) {
+        ProductOrder order = productOrderDao.getOrderById(orderId);
+
+        List<OrderItem> orderItemList = productOrderDao.getOrderItemsByOrderId(orderId);
+
+        order.setOrderItemList(orderItemList);
+
+        return order;
+    }
 
     @Override
     public Integer createOrder(Integer userId, CreateOrderRequest createOrderRequest) {

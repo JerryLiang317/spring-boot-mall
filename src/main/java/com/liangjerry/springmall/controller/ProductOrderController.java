@@ -1,8 +1,10 @@
 package com.liangjerry.springmall.controller;
 
 import com.liangjerry.springmall.dto.CreateOrderRequest;
+import com.liangjerry.springmall.model.ProductOrder;
 import com.liangjerry.springmall.service.ProductOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +25,9 @@ public class ProductOrderController {
 
         Integer orderId = productOrderService.createOrder(userId, createOrderRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+        ProductOrder order = productOrderService.getOrderById(orderId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
 }
