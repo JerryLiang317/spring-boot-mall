@@ -5,6 +5,7 @@ import com.liangjerry.springmall.dao.ProductOrderDao;
 import com.liangjerry.springmall.dao.UserDao;
 import com.liangjerry.springmall.dto.BuyItem;
 import com.liangjerry.springmall.dto.CreateOrderRequest;
+import com.liangjerry.springmall.dto.OrderQueryParams;
 import com.liangjerry.springmall.model.OrderItem;
 import com.liangjerry.springmall.model.Product;
 import com.liangjerry.springmall.model.ProductOrder;
@@ -33,6 +34,22 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public Integer countOrders(OrderQueryParams orderQueryParams) {
+        return productOrderDao.countOrders(orderQueryParams);
+    }
+
+    @Override
+    public List<ProductOrder> getOrders(OrderQueryParams orderQueryParams) {
+        List<ProductOrder> orderList = productOrderDao.getOrders(orderQueryParams);
+
+        for (ProductOrder order: orderList) {
+            List<OrderItem> orderItemList = productOrderDao.getOrderItemsByOrderId(order.getOrderId());
+            order.setOrderItemList(orderItemList);
+        }
+        return orderList;
+    }
 
     @Override
     public ProductOrder getOrderById(Integer orderId) {
